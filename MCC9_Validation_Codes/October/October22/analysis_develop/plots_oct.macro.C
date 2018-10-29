@@ -1,0 +1,227 @@
+{
+  Color_t line_color[]={1,kTeal+7,kRed-7,kBlue-7,kMagenta-7,kYellow+2,kCyan+2,kOrange+7,kViolet+2,kGreen-8};
+  TFile *f_on = new TFile("bnb_beta1_histos_Lu_Oct.root");
+  TFile *f_off = new TFile("extbnb_beta1_histos_Lu.root");
+  TFile *f_mc = new TFile("MC_beta1_histos_Lu.root");
+  const double wgt_ext=0.632;
+  const double wgt_mc=0.186;
+
+ TH1D * hon_fls_t=(TH1D*)f_on->Get("h_fls_t");
+ TH1D * hoff_fls_t=(TH1D*)f_off->Get("h_fls_t");
+ TH1D * hmc_fls_t=(TH1D*)f_mc->Get("h_fls_t");
+ hoff_fls_t->Scale(wgt_ext);
+ hmc_fls_t->Scale(wgt_mc);
+ TH1D * hdata_fls_t=(TH1D*)hon_fls_t->Clone();
+ hdata_fls_t->Add(hoff_fls_t,-1);
+ hdata_fls_t->Sumw2();
+ hmc_fls_t->Sumw2();
+
+ TH1D * hon_fls_pe=(TH1D*)f_on->Get("h_fls_pe");
+ TH1D * hoff_fls_pe=(TH1D*)f_off->Get("h_fls_pe");
+ TH1D * hmc_fls_pe=(TH1D*)f_mc->Get("h_fls_pe");
+ hoff_fls_pe->Scale(wgt_ext);
+ hmc_fls_pe->Scale(wgt_mc);
+TH1D * hdata_fls_pe=(TH1D*)hon_fls_pe->Clone();
+ hdata_fls_pe->Add(hoff_fls_pe,-1);
+ hdata_fls_pe->Sumw2();
+ hmc_fls_pe->Sumw2();
+
+ TH1D * hon_QLLx_TPCx=(TH1D*)f_on->Get("h_QLLx_TPCx");
+ TH1D * hoff_QLLx_TPCx=(TH1D*)f_off->Get("h_QLLx_TPCx");
+ TH1D * hmc_QLLx_TPCx=(TH1D*)f_mc->Get("h_QLLx_TPCx");
+ hoff_QLLx_TPCx->Scale(wgt_ext);
+ hmc_QLLx_TPCx->Scale(wgt_mc);
+TH1D * hdata_QLLx_TPCx=(TH1D*)hon_QLLx_TPCx->Clone();
+ hdata_QLLx_TPCx->Add(hoff_QLLx_TPCx,-1);
+ hdata_QLLx_TPCx->Sumw2();
+ hmc_QLLx_TPCx->Sumw2();
+
+TH1D * hon_hypoz_flsz=(TH1D*)f_on->Get("h_hypoz_flsz");
+ TH1D * hoff_hypoz_flsz=(TH1D*)f_off->Get("h_hypoz_flsz");
+ TH1D * hmc_hypoz_flsz=(TH1D*)f_mc->Get("h_hypoz_flsz");
+ hoff_hypoz_flsz->Scale(wgt_ext);
+ hmc_hypoz_flsz->Scale(wgt_mc);
+TH1D * hdata_hypoz_flsz=(TH1D*)hon_hypoz_flsz->Clone();
+ hdata_hypoz_flsz->Add(hoff_hypoz_flsz,-1);
+
+TH1D * hon_muon_mom_bnb=(TH1D*)f_on->Get("h_muon_mom_bnb");
+ TH1D * hoff_muon_mom_bnb=(TH1D*)f_off->Get("h_muon_mom_bnb");
+ TH1D * hmc_muon_mom_bnb=(TH1D*)f_mc->Get("h_muon_mom_bnb");
+ hoff_muon_mom_bnb->Scale(wgt_ext);
+ hmc_muon_mom_bnb->Scale(wgt_mc);
+ THStack * hmc_ext_muon_mom_bnb=new THStack("hmc_ext_muon_mom_bnb","hmc_ext_muon_mom_bnb");
+ hmc_ext_muon_mom_bnb->Add(hmc_muon_mom_bnb);
+ hmc_ext_muon_mom_bnb->Add(hoff_muon_mom_bnb);
+
+ TCanvas * C_muon_mom_bnb=new TCanvas("mom","mom");
+ //   hmc_ext_muon_mom_bnb->Draw("hist");
+   hon_muon_mom_bnb->Draw("e");
+   hon_muon_mom_bnb->SetLineColor(1);
+  hmc_muon_mom_bnb->SetLineColor(line_color[2]);
+  hmc_muon_mom_bnb->SetFillColor(line_color[2]);
+ hoff_muon_mom_bnb->SetLineColor(line_color[3]);
+  hoff_muon_mom_bnb->SetFillColor(line_color[3]);
+  hon_muon_mom_bnb->SetMarkerColor(1);
+
+  // hon_muon_mom_bnb->SetMaximum(100);
+   hon_muon_mom_bnb->SetMinimum(0);
+   hon_muon_mom_bnb->GetXaxis()->SetTitle("Muon Momentum (MCS) (GeV)");
+   hon_muon_mom_bnb->GetYaxis()->SetTitle("Selected Events");
+   hon_muon_mom_bnb->GetXaxis()->SetTitleSize(0.06);
+   hon_muon_mom_bnb->GetYaxis()->SetTitleSize(0.06);
+   hon_muon_mom_bnb->GetYaxis()->SetNdivisions(512);
+   hon_muon_mom_bnb->GetYaxis()->SetTitleOffset(1.2);
+   TLegend *leg_m = new TLegend(0.45,0.6,0.8,0.85,"");
+   leg_m->AddEntry(hon_muon_mom_bnb,"Data (on beam)","lep");
+   // leg_m->AddEntry(hmc_muon_mom_bnb,"MC","Lf");
+   //leg_m->AddEntry(hoff_muon_mom_bnb,"offbeam data","Lf");
+    leg_m->SetBorderSize(0);
+   leg_m->SetTextSize(0.04);
+   leg_m->SetFillColor(0);
+   // leg_m->Draw();
+   //
+TH1D * hon_muon_mom_diff=(TH1D*)f_on->Get("h_muon_mom_diff");
+ TH1D * hoff_muon_mom_diff=(TH1D*)f_off->Get("h_muon_mom_diff");
+ TH1D * hmc_muon_mom_diff=(TH1D*)f_mc->Get("h_muon_mom_diff");
+ hoff_muon_mom_diff->Scale(wgt_ext);
+ hmc_muon_mom_diff->Scale(wgt_mc);
+ THStack * hmc_ext_muon_mom_diff=new THStack("hmc_ext_muon_mom_diff","hmc_ext_muon_mom_diff");
+ hmc_ext_muon_mom_diff->Add(hmc_muon_mom_diff);
+ hmc_ext_muon_mom_diff->Add(hoff_muon_mom_diff);
+
+ TCanvas * C_muon_mom_diff=new TCanvas("mvom","movm");
+ //  hmc_ext_muon_mom_diff->Draw("hist");
+   hon_muon_mom_diff->Draw("e");
+   hon_muon_mom_diff->SetLineColor(1);
+  hmc_muon_mom_diff->SetLineColor(line_color[2]);
+  hmc_muon_mom_diff->SetFillColor(line_color[2]);
+ hoff_muon_mom_diff->SetLineColor(line_color[3]);
+  hoff_muon_mom_diff->SetFillColor(line_color[3]);
+  hon_muon_mom_diff->SetMarkerColor(1);
+
+  // hmc_ext_muon_mom_diff->SetMaximum(100);
+   hon_muon_mom_diff->SetMinimum(0);
+   hon_muon_mom_diff->GetXaxis()->SetTitle("Muon Momentum (MCS-Range) (GeV)");
+   hon_muon_mom_diff->GetYaxis()->SetTitle("Neutrino slice from pandora");
+   hon_muon_mom_diff->GetXaxis()->SetTitleSize(0.06);
+   hon_muon_mom_diff->GetYaxis()->SetTitleSize(0.06);
+   hon_muon_mom_diff->GetYaxis()->SetNdivisions(512);
+   hon_muon_mom_diff->GetYaxis()->SetTitleOffset(1.2);
+   TLegend *leg_d = new TLegend(0.45,0.6,0.8,0.85,"");
+   leg_d->AddEntry(hon_muon_mom_diff,"Data (on beam)","lep");
+   //  leg_d->AddEntry(hmc_muon_mom_diff,"MC","Lf");
+   //leg_d->AddEntry(hoff_muon_mom_diff,"offbeam data","Lf");
+    leg_d->SetBorderSize(0);
+   leg_d->SetTextSize(0.04);
+   leg_d->SetFillColor(0);
+   // leg_d->Draw();
+   //
+   /*
+   TCanvas * C_fls_t=new TCanvas("flash_time","flash_time");
+   hmc_fls_t->Draw("hist");
+   hdata_fls_t->Draw("esame");
+   hdata_fls_t->SetLineColor(line_color[2]);
+    hdata_fls_t->SetMarkerColor(line_color[2]);
+
+   hmc_fls_t->SetMaximum(2000);
+   hmc_fls_t->SetMinimum(0);
+   hmc_fls_t->GetXaxis()->SetTitle("Flash time wrt trigger (#mus)");
+   hmc_fls_t->GetYaxis()->SetTitle("Flashes (>50PE)");
+   hmc_fls_t->GetXaxis()->SetTitleSize(0.06);
+   hmc_fls_t->GetYaxis()->SetTitleSize(0.06);
+   hmc_fls_t->GetYaxis()->SetNdivisions(512);
+   hmc_fls_t->GetYaxis()->SetTitleOffset(1.2);
+   TLegend *leg_v = new TLegend(0.45,0.6,0.8,0.85,"");
+   leg_v->AddEntry(hdata_fls_t,"Data (on beam - off beam)","lep");
+   leg_v->AddEntry(hmc_fls_t,"MC","L");
+    leg_v->SetBorderSize(0);
+   leg_v->SetTextSize(0.04);
+   leg_v->SetFillColor(0);
+   leg_v->Draw();
+
+  TCanvas * C_fls_pe=new TCanvas("flash_pe","flash_tpe");
+  C_fls_pe->SetLogy();
+   hmc_fls_pe->Draw("hist");
+   hdata_fls_pe->Draw("esame");
+   hmc_fls_pe->SetLineColor(line_color[9]);
+    hmc_fls_pe->SetMarkerColor(line_color[9]);
+  hmc_fls_pe->SetFillColor(line_color[9]);
+
+   hmc_fls_pe->SetMaximum(10000);
+   hmc_fls_pe->SetMinimum(1);
+   hmc_fls_pe->GetXaxis()->SetTitle("Flash PE");
+   hmc_fls_pe->GetYaxis()->SetTitle("Flashes (>50PE)");
+   hmc_fls_pe->GetXaxis()->SetTitleSize(0.06);
+   hmc_fls_pe->GetYaxis()->SetTitleSize(0.06);
+   hmc_fls_pe->GetYaxis()->SetNdivisions(512);
+   hmc_fls_pe->GetYaxis()->SetTitleOffset(1.2);
+    TLegend *leg_pe = new TLegend(0.45,0.6,0.8,0.85,"");
+   leg_pe->AddEntry(hdata_fls_pe,"Data (on beam - off beam)","lep");
+   leg_pe->AddEntry(hmc_fls_pe,"MC","Lf");
+    leg_pe->SetBorderSize(0);
+   leg_pe->SetTextSize(0.04);
+   leg_pe->SetFillColor(0);
+   leg_pe->Draw();
+
+   TCanvas * C_QLLx_TPCx=new TCanvas("qll","qll");
+  C_QLLx_TPCx->SetLogy();
+   hmc_QLLx_TPCx->Draw("hist");
+   hdata_QLLx_TPCx->Draw("esame");
+   hmc_QLLx_TPCx->SetLineColor(line_color[2]);
+    hmc_QLLx_TPCx->SetMarkerColor(line_color[2]);
+    // hmc_QLLx_TPCx->SetFillColor(line_color[9]);
+
+   hmc_QLLx_TPCx->SetMaximum(100000);
+   hmc_QLLx_TPCx->SetMinimum(0.1);
+   hmc_QLLx_TPCx->GetXaxis()->SetTitle("QLL x - TPC x (cm)");
+   hmc_QLLx_TPCx->GetYaxis()->SetTitle("Neutrino slice from Pandora");
+   hmc_QLLx_TPCx->GetXaxis()->SetTitleSize(0.06);
+   hmc_QLLx_TPCx->GetYaxis()->SetTitleSize(0.06);
+   hmc_QLLx_TPCx->GetYaxis()->SetNdivisions(512);
+   hmc_QLLx_TPCx->GetYaxis()->SetTitleOffset(1.2);
+    TLegend *leg_x = new TLegend(0.55,0.6,0.8,0.85,"");
+   leg_x->AddEntry(hdata_QLLx_TPCx,"Data (on beam - off beam)","lep");
+   leg_x->AddEntry(hmc_QLLx_TPCx,"MC","L");
+    leg_x->SetBorderSize(0);
+   leg_x->SetTextSize(0.03);
+   leg_x->SetFillColor(0);
+   leg_x->Draw();
+
+  TCanvas * C_hypoz_flsz=new TCanvas("flsz","flsz");
+  // C_hypoz_flsz->SetLogy();
+   hmc_hypoz_flsz->Draw("hist");
+   hdata_hypoz_flsz->Draw("esame");
+   hmc_hypoz_flsz->SetLineColor(line_color[2]);
+    hmc_hypoz_flsz->SetMarkerColor(line_color[2]);
+    // hmc_hypoz_flsz->SetFillColor(line_color[9]);
+
+    hmc_hypoz_flsz->SetMaximum(50);
+     hmc_hypoz_flsz->SetMinimum(0.);
+   hmc_hypoz_flsz->GetXaxis()->SetTitle("Hypo z - Flash z (cm)");
+   hmc_hypoz_flsz->GetYaxis()->SetTitle("Neutrino slice from Pandora");
+   hmc_hypoz_flsz->GetXaxis()->SetTitleSize(0.06);
+   hmc_hypoz_flsz->GetYaxis()->SetTitleSize(0.06);
+   hmc_hypoz_flsz->GetYaxis()->SetNdivisions(512);
+   hmc_hypoz_flsz->GetYaxis()->SetTitleOffset(1.2);
+    TLegend *leg_z = new TLegend(0.55,0.6,0.8,0.85,"");
+   leg_z->AddEntry(hdata_hypoz_flsz,"Data (on beam - off beam)","lep");
+   leg_z->AddEntry(hmc_hypoz_flsz,"MC","L");
+    leg_z->SetBorderSize(0);
+   leg_z->SetTextSize(0.03);
+   leg_z->SetFillColor(0);
+   leg_z->Draw();
+
+   C_fls_t->Print("MCC9_2d_fls_t.pdf");
+   C_fls_t->Print("MCC9_2d_fls_t.png");
+   C_fls_pe->Print("MCC9_2d_fls_pe.pdf");
+   C_fls_pe->Print("MCC9_2d_fls_pe.png");
+  C_QLLx_TPCx->Print("MCC9_2d_QLLx_TPCx.pdf");
+   C_QLLx_TPCx->Print("MCC9_2d_QLLx_TPCx.png");
+  C_hypoz_flsz->Print("MCC9_2d_hypoz_flsz.pdf");
+   C_hypoz_flsz->Print("MCC9_2d_hypoz_flsz.png");
+   C_muon_mom_bnb->Print("MCC9_2d_mom_mcs.pdf");
+   C_muon_mom_bnb->Print("MCC9_2d_mom_mcs.png");
+ C_muon_mom_diff->Print("MCC9_2d_mom_diff.pdf");
+   C_muon_mom_diff->Print("MCC9_2d_mom_diff.png");
+   */
+}

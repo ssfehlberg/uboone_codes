@@ -1,0 +1,21 @@
+#include "reco_uboone_data_mcc8_driver_common.fcl"
+
+process_name: OpticalFilter
+
+physics.filters.opfiltercommon: @local::physics.filters.opfiltercommonext
+
+services.TFileService.fileName: "reco_stage_1_hist.root"
+physics.reco:         [ opfiltercommon]
+physics.trigger_paths: [ reco ]
+physics.end_paths: [ stream1 ]
+outputs.out1.fileName: "%ifb_%tc_optfilter.root"
+outputs.out1.dataTier: "reconstructed"
+outputs.out1.SelectEvents: [ reco ]
+
+microboone_tfile_metadata:
+{
+  JSONFileName:          "reco_stage_1_hist.root.json"
+  GenerateTFileMetadata: true
+  dataTier:              "root-tuple"
+  fileFormat:            "root"
+}

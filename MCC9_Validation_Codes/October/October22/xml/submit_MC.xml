@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!-- Production Project -->
+
+<!DOCTYPE project [
+<!ENTITY release      "v07_05_00_01" >
+<!ENTITY file_type    "mc"      >
+<!ENTITY run_type     "physics"   >
+<!ENTITY name         "CCInclusive_Validation_MCC9">
+<!ENTITY prod_version "v7"        >
+<!ENTITY tardir       "/pnfs/uboone/resilient/users/sfehlber/">
+]>
+
+<job>
+
+  <project name="&name;">
+    
+    <!-- Project size -->
+    <numevents>110000</numevents>
+    
+    <!-- Operating System -->
+    <os>SL6</os>
+    
+    <!-- Batch resources -->
+    <resource>DEDICATED,OPPORTUNISTIC,OFFSITE</resource>
+    
+    <!-- Larsoft information -->
+    <larsoft>
+      <tag>&release;</tag>
+      <qual>e17:prof</qual>
+      <local>&tardir;/Oct2.tar</local>
+    </larsoft>
+    
+    <!-- Project stages -->
+    
+    <stage name="MC_preMCC9">
+      <inputdef>prodgenie_bnb_nu_cosmic_uboone_mcc9.0_pre_oct_reco_1d_reco2</inputdef> 
+      <fcl>run_ubxsec_mc_bnbcosmic.fcl</fcl>      
+      <outdir>/pnfs/uboone/scratch/users/sfehlber/oct22/mc0</outdir>
+      <logdir>/pnfs/uboone/scratch/users/sfehlber/oct22/mc0</logdir>
+      <workdir>/pnfs/uboone/resilient/users/sfehlber</workdir>
+      <numjobs>300</numjobs>
+      <maxfilesperjob>10</maxfilesperjob> 
+      <memory>3000</memory>
+      <datatier>reco</datatier>
+    </stage>  
+
+    <stage name="MC_MCC9_beta1">
+      <inputdef>prodgenie_bnb_intrinsic_nue_cosmic_uboone_mcc9.0_beta1_oct_reco_2d_dic_reco2</inputdef> 
+      <fcl>run_ubxsec_mc_bnbcosmic.fcl</fcl>      
+      <outdir>/pnfs/uboone/scratch/users/sfehlber/oct22/mc1</outdir>
+      <logdir>/pnfs/uboone/scratch/users/sfehlber/oct22/mc1</logdir>
+      <workdir>/pnfs/uboone/resilient/users/sfehlber</workdir>
+      <numjobs>300</numjobs>
+      <maxfilesperjob>10</maxfilesperjob> 
+      <memory>3000</memory>
+      <datatier>reco</datatier>
+    </stage>  
+
+    <stage name="MC_MCC9_beta2">
+      <inputdef>prodgenie_bnb_intrinsic_nue_cosmic_uboone_mcc9.0_beta2_oct_reco_2d_wc_reco2</inputdef>
+      <fcl>run_ubxsec_mc_bnbcosmic.fcl</fcl>      
+      <outdir>/pnfs/uboone/scratch/users/sfehlber/oct22/mc2</outdir>
+      <logdir>/pnfs/uboone/scratch/users/sfehlber/oct22/mc2</logdir>
+      <workdir>/pnfs/uboone/resilient/users/sfehlber</workdir>
+      <numjobs>300</numjobs>
+      <maxfilesperjob>10</maxfilesperjob> 
+      <memory>3000</memory>
+      <datatier>reco</datatier>
+    </stage> 
+
+ 
+
+  </project>
+  
+</job>

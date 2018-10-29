@@ -1,0 +1,12 @@
+#include "reco_uboone_data_mcc9_8_driver_common.fcl"
+
+process_name: DataRecoStage3Caloi
+
+services.TFileService.fileName: "reco_calo_hist.root"
+physics.reco:                   [ pandoracalo, pandoracali ]
+physics.trigger_paths:          [ reco ]
+physics.end_paths:              [ stream1 ]
+outputs.out1.fileName:          "%ifb_%tc_calo_i.root"
+outputs.out1.dataTier:          "reconstructed"
+source.inputCommands:           ["keep *_*_*_*" ]
+
